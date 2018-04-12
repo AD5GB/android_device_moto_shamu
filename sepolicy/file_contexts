@@ -51,6 +51,7 @@
 /dev/block/platform/msm_sdcc\.1/by-name/userdata     u:object_r:userdata_block_device:s0
 /dev/block/platform/msm_sdcc\.1/by-name/metadata     u:object_r:metadata_block_device:s0
 /dev/block/platform/msm_sdcc\.1/by-name/cache        u:object_r:cache_block_device:s0
+/dev/block/platform/msm_sdcc\.1/by-name/misc         u:object_r:misc_block_device:s0
 
 # Customer Identifier
 /dev/block/platform/msm_sdcc.1/by-name/cid          u:object_r:cid_block_device:s0
@@ -87,6 +88,7 @@
 #Add context for IMS Socket node
 /dev/socket/ims_qmid            u:object_r:ims_socket:s0
 /dev/socket/ims_datad           u:object_r:ims_socket:s0
+/dev/socket/ims_rtpd            u:object_r:ims_socket:s0
 
 # Shared memory log
 /dev/smem_log                   u:object_r:shared_log_device:s0
@@ -149,8 +151,18 @@
 # Sysfs files used by qmuxd
 /sys/devices/virtual/smdpkt/smdcntl([0-9])+/open_timeout u:object_r:sysfs_smdcntl_open_timeout:s0
 
+/sys/devices/f9200000\.ssusb(/.*)?                       u:object_r:sysfs_usb:s0
+
 # mmi_touch related /sys files
 /sys/devices/f9966000\.i2c/i2c-1/1-004a(/.*)?            u:object_r:sysfs_mmi_touch:s0
+
+/sys/devices/f9925000\.i2c/i2c-0/0-001c/power_supply/battery/capacity    u:object_r:sysfs_batteryinfo:s0
+/sys/devices/f9925000\.i2c/i2c-0/0-001c/power_supply/battery/cycle_count u:object_r:sysfs_batteryinfo:s0
+/sys/devices/f9925000\.i2c/i2c-0/0-001c/power_supply/battery/temp        u:object_r:sysfs_batteryinfo:s0
+/sys/devices/f9964000\.i2c/i2c-8/8-0048/temp1_input                      u:object_r:sysfs_batteryinfo:s0
+/sys/devices/fd900000.qcom,mdss_mdp/qcom,mdss_fb_primary.164/leds/lcd-backlight/brightness u:object_r:sysfs_leds:s0
+
+/sys/devices/system/cpu(/.*)?                            u:object_r:sysfs_devices_system_cpu:s0
 
 # Context for mpdecision
 /sys/module/msm_thermal/core_control/cpus_offlined              u:object_r:sysfs_mpdecision:s0
@@ -161,10 +173,29 @@
 /sys/devices/msm_hsic_host/host_ready                    u:object_r:sysfs_msm_hsic_host:s0
 
 /sys/devices/cycapsense_prog.1/cycapsense_fw             u:object_r:sysfs_capsense_update:s0
+/sys/devices/leds-qpnp-11/leds/red/brightness            u:object_r:sysfs_leds:s0
+/sys/devices/leds-qpnp-12/leds/green/brightness          u:object_r:sysfs_leds:s0
+/sys/devices/leds-qpnp-13/leds/blue/brightness           u:object_r:sysfs_leds:s0
 /sys/devices/mmi_sar_ctrl.[0-9]*/sar_wifi                u:object_r:sysfs_sar_wifi:s0
+
+# sysfs files used by wifi
+/sys/module/bcmdhd/parameters/firmware_path u:object_r:sysfs_wlan_fwpath:s0
+
+# wifi mac address
+/sys/devices/virtual/net/wlan0/address                   u:object_r:sysfs_mac_address:s0
 
 /system/bin/imsdatadaemon                       u:object_r:ims_exec:s0
 /system/bin/imsqmidaemon                        u:object_r:ims_exec:s0
+/system/bin/ims_rtp_daemon                      u:object_r:ims_exec:s0
 
 /dev/socket/cnd  u:object_r:cnd_socket:s0
 /system/bin/cnd  u:object_r:cnd_exec:s0
+
+# HALs
+/system/vendor/bin/hw/android\.hardware\.dumpstate@1\.0-service.shamu    u:object_r:hal_dumpstate_default_exec:s0
+/system/vendor/bin/hw/android\.hardware\.light@2\.0-service.shamu        u:object_r:hal_light_default_exec:s0
+/system/vendor/bin/hw/android\.hardware\.vibrator@1\.0-service.shamu     u:object_r:hal_vibrator_default_exec:s0
+
+# Sysfs files used by gralloc hal
+/sys/devices/virtual/graphics/fb[0-1]/msm_.*        u:object_r:sysfs_hal_gralloc:s0
+/sys/devices/fd900000.qcom,mdss_mdp/caps            u:object_r:sysfs_hal_gralloc:s0

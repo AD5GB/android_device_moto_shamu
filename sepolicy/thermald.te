@@ -1,5 +1,5 @@
 # Temperature sensor daemon (root process)
-type thermald, domain;
+type thermald, domain, device_domain_deprecated;
 type thermald_exec, exec_type, file_type;
 
 # Started by init
@@ -21,9 +21,15 @@ allow thermald socket_device:dir w_dir_perms;
 allow thermald thermald_socket:sock_file create_file_perms;
 
 allow thermald self:socket create_socket_perms;
+allowxperm thermald self:socket ioctl msm_sock_ipc_ioctls;
 
 # Writes to /sys/module/msm_thermal/core_control/cpus_offlined
 allow thermald sysfs_mpdecision:file rw_file_perms;
 
 # TODO specify specific labels for /sys/ files
 allow thermald sysfs:file write;
+allow thermald sysfs_usb:file write;
+allow thermald sysfs_batteryinfo:file r_file_perms;
+
+allow thermald sysfs_socinfo:dir search;
+allow thermald sysfs_socinfo:file { read open getattr };
